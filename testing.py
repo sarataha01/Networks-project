@@ -20,7 +20,7 @@ while 1:
     tcpCliSock, addr = tcpSerSock.accept()
     print ('Received a connection from:', addr)
     message = tcpCliSock.recv(4096)
-    print("MESSAGE RECIEVED IS ")
+    print("Message:  ")
 
     flag = False
 
