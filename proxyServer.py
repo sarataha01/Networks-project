@@ -1,6 +1,6 @@
 from socket import *
 import sys
-import os
+
 
 if len(sys.argv) <= 1:
     print ('Usage : "python ProxyServer.py server_ip"\n[server_ip : It is the IP Address Of Proxy Server')
