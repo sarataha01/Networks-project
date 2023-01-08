@@ -1,26 +1,26 @@
-import socket
+from socket import *
 import sys
 import os
 
 if len(sys.argv) <= 1:
     print ('Usage : "python ProxyServer.py server_ip"\n[server_ip : It is the IP Address Of Proxy Server')
     sys.exit(2)
+
 # Create a server socket, bind it to a port and start listening
+tcpSerSock = socket(AF_INET, SOCK_STREAM)
 
-tcpSerSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-tcpSerSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-tcpSerSock.bind(("", 8888))
-tcpSerSock.listen(2)
 # Fill in start.
+tcpSerSock.bind(("", 8888))
+tcpSerSock.listen(5)
 # Fill in end.
+
 while 1:
     # Start receiving data from the client
     print ('\nReady to serve...')
     tcpCliSock, addr = tcpSerSock.accept()
     print ('Received a connection from:', addr)
     message = tcpCliSock.recv(4096)
-    print("Message:  ")
+    print("Message recieved:  ")
 
     flag = False
 
