@@ -112,7 +112,7 @@ while 1:
                     tcpCliSock.sendall("Content-Type: image/jpeg\r\n".encode())
                     tcpCliSock.sendall(buffer)
                     tmpFile.close()
-                    print('cache saved')
+                    print('Cache saved')
                     # Fill in end
 
                  except:
@@ -121,11 +121,10 @@ while 1:
             else:
                 # HTTP response message for file not found
                 # Fill in start
-                 print("error 404")
+                 print("Error 404")
                  tcpCliSock.sendall("HTTP/1.0 404 page not found\r\n".encode())
                  tcpCliSock.sendall("Content-Type:text/html\r\n".encode())
                  #Fill in end
-
             #Close the client and the server sockets
             tcpCliSock.close()
  # Fill in start.
