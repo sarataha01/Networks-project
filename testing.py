@@ -22,7 +22,7 @@ while 1:
     # Fill in start. 
     message = tcpCliSock.recv(4096)
     # Fill in end.
-    print(message)
+    print("Message is: ",message)
 
     file = message.split()[1]
 
@@ -79,8 +79,9 @@ while 1:
 
                  try:
                     # Connect to the socket to port 80
+                    #File in start
                     print('connected to port 80')
-                    fileobj = c.makefile('rwb',0)
+                    fileobj = c.makefile('r',0)
 
                     if not "Referer" in message:
                         print("**************Connecting to server***********")
