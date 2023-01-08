@@ -73,7 +73,7 @@ while 1:
                 # Create a socket on the proxyserver
 
                 # Fill in start.
-                 c = socket.socket(socket.AF_INET,socket. SOCK_STREAM)
+                 c = socket(AF_INET,SOCK_STREAM)
                  file = file[1:]
                  hostn = file
                  hostn = file.replace("www.","",1)
