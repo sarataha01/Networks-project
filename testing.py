@@ -19,63 +19,68 @@ while 1:
     print ('\nReady to serve...')
     tcpCliSock, addr = tcpSerSock.accept()
     print ('Received a connection from:', addr)
+    # Fill in start. 
     message = tcpCliSock.recv(4096)
-    print("Message recieved:  ")
-
-    flag = False
-
-    if message.split()[1] is None:
-        continue
+    # Fill in end.
+    print(message)
 
     file = message.split()[1]
 
-    fileExist = "false"
-    filetouse = file
-    print(filetouse)
+    # Extract the filename from the given message 
+    print (file) 
+    filename = message.split()[1].partition("/")[2] 
+    print (filename) 
+    fileExist = "false" 
+    filetouse = "/" + filename 
+    print (filetouse)
 
     filename = file.split('/')[1]
     file2 = message.split()[1].partition("/")[2]
-    URLf = open("blacklist.txt", "r")
+    blackList = open("blacklist.txt", "r")
 
-    fileExist = "false"
-    for line in URLf.readlines():
+    flag = False
+    for line in blackList.readlines():
         line = line.split('\n')[0]
         if line == file2:
             print("This URL is blocked")
             flag = True
             break
 
-    URLf.close()
+    blackList.close()
 
     if not flag:
         try:
             # Check wether the file exist in the cache
-            f = open(filetouse[1:], "rb")
+            f = open(filetouse[1:], "r")
             outputdata = f.read()
             # ProxyServer finds a cache file and generates a response message
             tcpCliSock.sendall("HTTP/1.0 200 OK\r\n".encode())
             tcpCliSock.sendall("Content-Type:text/html\r\n".encode())
-            tcpCliSock.sendall("Content-Type: image/jpeg\r\n".encode())
-            tcpCliSock.sendall("Content-Type: image/jpeg\r\n".encode())
 
+            #Fill in start.
+            tcpCliSock.sendall("Content-Type: image/jpeg\r\n".encode())
+            tcpCliSock.sendall("Content-Type: image/jpeg\r\n".encode())
             tcpCliSock.sendall(outputdata)
             f.close()
-            print ('Read from cache')
+            #Fill in end.
 
+            print ('Read from cache')
         # Error handling for file not found in cache
         except IOError:
             if fileExist == "false":
                 # Create a socket on the proxyserver
+                # Fill in start.
                  c = socket.socket(socket.AF_INET,socket. SOCK_STREAM)
+                 # Fill in end.
                  file = file[1:]
                  hostn = file
                  hostn = file.replace("www.","",1)
-                 print("host NAME is : ", hostn)
+                 print("hostname: ", hostn)
 
                  try:
+                    # Connect to the socket to port 80
                     print('connected to port 80')
                     fileobj = c.makefile('rwb',0)
-                    # Connect to the socket to port 80
 
                     if not "Referer" in message:
                         print("**************Connecting to server***********")
