@@ -130,4 +130,4 @@ while 1:
  # Fill in start.
 tcpSerSock.flush()
 tcpSerSock.close()
- # Fill in end.-
+ # Fill in end.
