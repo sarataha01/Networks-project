@@ -22,7 +22,8 @@ while 1:
     # Fill in start. 
     message = tcpCliSock.recv(4096)
     # Fill in end.
-    print("Message is: ",message)
+    print("Message is:\n ")
+    print(message)
 
     file = message.split()[1]
 
@@ -36,8 +37,9 @@ while 1:
 
     filename = file.split('/')[1]
     file2 = message.split()[1].partition("/")[2]
-    blackList = open("blacklist.txt", "r")
 
+    #Black listed sites checking
+    blackList = open("blacklist.txt", "r")
     flag = False
     for line in blackList.readlines():
         line = line.split('\n')[0]
@@ -69,35 +71,39 @@ while 1:
         except IOError:
             if fileExist == "false":
                 # Create a socket on the proxyserver
+
                 # Fill in start.
                  c = socket.socket(socket.AF_INET,socket. SOCK_STREAM)
-                 # Fill in end.
                  file = file[1:]
                  hostn = file
                  hostn = file.replace("www.","",1)
-                 print("hostname: ", hostn)
+                 # Fill in end.
+                 print(hostn)
 
                  try:
                     # Connect to the socket to port 80
                     #File in start
-                    print('connected to port 80')
+                    print('Connected to port 80')
                     fileobj = c.makefile('r',0)
 
                     if not "Referer" in message:
-                        print("**************Connecting to server***********")
-                        # Connect to the socket to port 80
+                        print("Connecting to server.......................")
                         c.connect((hostn, 80))
                         conneted=hostn
                         fileobj.write(b'GET / HTTP/1.0\r\n\r\n')
                     else:
-                        print("********Get path in referer********: " + hostn)
+                        print("Get path: " + hostn)
                         c.connect((conneted, 80))
                         fileobj.write(b'GET /' + hostn + ' HTTP/1.0\r\n\r\n'.encode())
 
                     buffer = fileobj.read()
+                    # Fill in end.
+                
                     # Create a new file in the cache for the requested file.
                     # Also send the response in the buffer to client socket and the corresponding file in the cache
                     tmpFile = open("./" + filename,"wb")
+
+                    #Fill in start
                     for i in range(0, len(buffer)):
                         tmpFile.write(buffer[i])
 
@@ -107,15 +113,20 @@ while 1:
                     tcpCliSock.sendall(buffer)
                     tmpFile.close()
                     print('cache saved')
+                    # Fill in end
 
                  except:
                      print ("Illegal request")
 
             else:
+                # HTTP response message for file not found
+                # Fill in start
                  print("error 404")
                  tcpCliSock.sendall("HTTP/1.0 404 page not found\r\n".encode())
                  tcpCliSock.sendall("Content-Type:text/html\r\n".encode())
+                 #Fill in end
 
+            #Close the client and the server sockets
             tcpCliSock.close()
  # Fill in start.
 tcpSerSock.flush()
